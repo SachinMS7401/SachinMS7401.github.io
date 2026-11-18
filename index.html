@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sachin M S — Backend Engineer</title>
+<meta name="description" content="Sachin M S — Backend Software Engineer (Golang) building scalable microservices and distributed systems.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg-gradient-onyx:linear-gradient(to bottom right,hsl(240,1%,25%) 3%,hsl(0,0%,19%) 97%);
+  --bg-gradient-jet:linear-gradient(to bottom right,hsla(240,1%,18%,.251) 0%,hsla(240,2%,11%,0) 100%),hsl(240,2%,13%);
+  --bg-gradient-yellow-1:linear-gradient(to bottom right,hsl(45,100%,71%) 0%,hsla(36,100%,69%,0) 50%);
+  --bg-gradient-yellow-2:linear-gradient(135deg,hsla(45,100%,71%,.251) 0%,hsla(35,100%,68%,0) 59.86%),hsl(240,2%,13%);
+  --border-gradient-onyx:linear-gradient(to bottom right,hsl(0,0%,25%) 0%,hsla(0,0%,25%,0) 50%);
+  --text-gradient-yellow:linear-gradient(to right,hsl(45,100%,72%),hsl(35,100%,68%));
+  --jet:hsl(0,0%,22%);--onyx:hsl(240,1%,17%);--eerie-1:hsl(240,2%,13%);--eerie-2:hsl(240,2%,12%);
+  --smoky:hsl(0,0%,7%);--white-1:#fff;--white-2:hsl(0,0%,98%);
+  --yellow:hsl(45,100%,72%);--gold:hsl(45,54%,58%);
+  --gray:hsl(0,0%,84%);--gray-70:hsla(0,0%,84%,.7);
+  --shadow-1:-4px 8px 24px hsla(0,0%,0%,.25);--shadow-2:0 16px 30px hsla(0,0%,0%,.25);
+  --shadow-5:0 24px 80px hsla(0,0%,0%,.25);
+  --t1:.25s ease;--t2:.5s ease-in-out;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+a{text-decoration:none;color:inherit}li{list-style:none}
+button{font:inherit;background:none;border:none;cursor:pointer;color:inherit;text-align:left}
+html{font-family:'Poppins',sans-serif;scroll-behavior:smooth}
+body{background:var(--smoky);color:var(--gray)}
+::selection{background:var(--yellow);color:var(--smoky)}
+svg.i{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-track{background:var(--onyx);border-radius:5px}
+::-webkit-scrollbar-thumb{background:var(--yellow);border-radius:5px}
+
+.sidebar,article{background:var(--eerie-1);border:1px solid var(--jet);border-radius:20px;padding:15px;box-shadow:var(--shadow-1);z-index:1}
+.separator{width:100%;height:1px;background:var(--jet);margin:16px 0}
+.icon-box{position:relative;background:var(--border-gradient-onyx);width:30px;height:30px;border-radius:8px;display:flex;justify-content:center;align-items:center;color:var(--yellow);box-shadow:var(--shadow-1);z-index:1}
+.icon-box::before{content:"";position:absolute;inset:1px;background:var(--eerie-1);border-radius:inherit;z-index:-1}
+.h2,.h3,.h4,.h5{color:var(--white-2);text-transform:capitalize}
+.h2{font-size:24px}.h3{font-size:18px}.h4{font-size:16px}.h5{font-size:15px;font-weight:500}
+.article-title{position:relative;padding-bottom:7px}
+.article-title::after{content:"";position:absolute;bottom:0;left:0;width:30px;height:3px;background:var(--text-gradient-yellow);border-radius:3px}
+.has-scrollbar::-webkit-scrollbar{width:5px;height:5px}
+.content-card{position:relative;background:var(--border-gradient-onyx);padding:15px;padding-top:45px;border-radius:14px;box-shadow:var(--shadow-2);z-index:1}
+.content-card::before{content:"";position:absolute;inset:1px;background:var(--bg-gradient-jet);border-radius:inherit;z-index:-1}
+
+main{margin:15px 12px;margin-bottom:75px;min-width:259px}
+
+/* sidebar */
+.sidebar{margin-bottom:15px;max-height:112px;overflow:hidden;transition:var(--t2)}
+.sidebar.active{max-height:600px}
+.sidebar-info{position:relative;display:flex;justify-content:flex-start;align-items:center;gap:15px}
+.avatar-box{background:var(--bg-gradient-onyx);border-radius:20px;width:80px;height:80px;display:grid;place-items:center;flex-shrink:0}
+.avatar-box span{font-size:28px;font-weight:600;background:var(--text-gradient-yellow);-webkit-background-clip:text;background-clip:text;color:transparent;letter-spacing:1px}
+.info-content .name{color:var(--white-2);font-size:17px;font-weight:500;letter-spacing:-.25px;margin-bottom:10px}
+.info-content .title{color:var(--white-1);background:var(--onyx);font-size:11px;font-weight:300;width:max-content;padding:3px 12px;border-radius:8px}
+.info_more-btn{position:absolute;top:-15px;right:-15px;border-radius:0 15px;font-size:13px;color:var(--yellow);background:var(--border-gradient-onyx);padding:10px;box-shadow:var(--shadow-2);transition:var(--t1);z-index:1;display:flex;align-items:center;gap:6px}
+.info_more-btn::before{content:"";position:absolute;inset:1px;border-radius:inherit;background:var(--bg-gradient-jet);transition:var(--t1);z-index:-1}
+.info_more-btn:hover::before{background:var(--bg-gradient-yellow-1)}
+.info_more-btn span{display:none}
+.sidebar.active .info_more-btn svg{transform:rotate(180deg)}
+.info_more-btn svg{transition:var(--t1)}
+.sidebar-info_more{opacity:0;visibility:hidden;transition:var(--t2)}
+.sidebar.active .sidebar-info_more{opacity:1;visibility:visible}
+.contacts-list{display:grid;grid-template-columns:1fr;gap:16px}
+.contact-item{min-width:100%;display:flex;align-items:center;gap:16px}
+.contact-info{max-width:calc(100% - 46px);width:calc(100% - 46px)}
+.contact-title{color:var(--gray-70);font-size:11px;text-transform:uppercase;margin-bottom:2px}
+.contact-info :is(.contact-link,address){color:var(--white-2);font-size:13px;font-style:normal;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+.contact-link:hover{color:var(--yellow)}
+.social-list{display:flex;justify-content:flex-start;align-items:center;gap:15px;padding-bottom:4px;padding-left:7px}
+.social-link{color:var(--gray-70);transition:var(--t1);display:flex}
+.social-link:hover{color:var(--yellow)}
+.social-link svg{width:20px;height:20px}
+
+/* navbar */
+.navbar{position:fixed;bottom:0;left:0;width:100%;background:hsla(240,1%,17%,.75);backdrop-filter:blur(10px);border:1px solid var(--jet);border-radius:12px 12px 0 0;box-shadow:var(--shadow-2);z-index:5}
+.navbar-list{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;padding:0 10px}
+.navbar-link{color:var(--gray);font-size:11px;padding:20px 7px;transition:color var(--t1)}
+.navbar-link:hover,.navbar-link:focus{color:var(--gray-70)}
+.navbar-link.active{color:var(--yellow)}
+
+/* articles */
+article{display:none}
+article.active{display:block;animation:fade .5s ease backwards}
+@keyframes fade{0%{opacity:0}100%{opacity:1}}
+article header{margin-bottom:20px}
+
+/* about */
+.about-text{color:var(--gray);font-size:14px;font-weight:300;line-height:1.6}
+.about-text p{margin-bottom:15px}
+.about-text strong{color:var(--white-2);font-weight:500}
+.stats-list{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:10px 0 30px}
+.stat-item{position:relative;background:var(--border-gradient-onyx);border-radius:14px;padding:16px 14px;box-shadow:var(--shadow-2);z-index:1}
+.stat-item::before{content:"";position:absolute;inset:1px;background:var(--bg-gradient-jet);border-radius:inherit;z-index:-1}
+.stat-num{font-size:24px;font-weight:600;background:var(--text-gradient-yellow);-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1.2}
+.stat-label{font-size:12px;color:var(--gray-70);font-weight:300}
+.service{margin-bottom:35px}
+.service-title{margin-bottom:20px}
+.service-list{display:grid;grid-template-columns:1fr;gap:20px}
+.service-item{position:relative;background:var(--border-gradient-onyx);padding:20px;border-radius:14px;box-shadow:var(--shadow-2);z-index:1}
+.service-item::before{content:"";position:absolute;inset:1px;background:var(--bg-gradient-jet);border-radius:inherit;z-index:-1}
+.service-icon-box{margin-bottom:10px;color:var(--yellow)}
+.service-icon-box svg{width:40px;height:40px;stroke-width:1.4}
+.service-content-box{text-align:center}
+.service-item-title{margin-bottom:7px}
+.service-item-text{color:var(--gray);font-size:14px;font-weight:300;line-height:1.6}
+.clients{margin-bottom:15px}
+.clients-list{display:flex;gap:15px;margin:0 -15px;padding:25px 25px 35px;overflow-x:auto;scroll-behavior:smooth;overscroll-behavior-inline:contain;scroll-snap-type:inline mandatory;scroll-padding-inline:25px}
+.clients-item{min-width:50%;scroll-snap-align:start}
+.client-card{position:relative;background:var(--border-gradient-onyx);border-radius:14px;padding:18px 16px;display:flex;flex-direction:column;align-items:center;gap:4px;box-shadow:var(--shadow-2);z-index:1;filter:grayscale(1);opacity:.75;transition:var(--t1)}
+.client-card::before{content:"";position:absolute;inset:1px;background:var(--bg-gradient-jet);border-radius:inherit;z-index:-1}
+.client-card:hover{filter:none;opacity:1}
+.client-logo{font-size:20px;font-weight:600;letter-spacing:-.5px;color:var(--white-2)}
+.client-logo b{color:var(--yellow);font-weight:600}
+.client-role{font-size:11px;color:var(--gray-70);text-align:center}
+
+/* resume */
+.resume-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+.btn{position:relative;display:inline-flex;align-items:center;gap:8px;color:var(--yellow);background:var(--border-gradient-onyx);padding:10px 16px;border-radius:12px;font-size:13px;box-shadow:var(--shadow-2);z-index:1;transition:var(--t1)}
+.btn::before{content:"";position:absolute;inset:1px;background:var(--bg-gradient-jet);border-radius:inherit;z-index:-1;transition:var(--t1)}
+.btn:hover::before{background:var(--bg-gradient-yellow-2)}
+.timeline{margin-bottom:30px}
+.timeline .title-wrapper{display:flex;align-items:center;gap:15px;margin-bottom:25px}
+.timeline-list{font-size:14px;margin-left:45px}
+.timeline-item{position:relative}
+.timeline-item:not(:last-child){margin-bottom:20px}
+.timeline-item-title{font-size:15px;line-height:1.3;margin-bottom:5px}
+.timeline-org{color:var(--white-2);font-size:13px;font-weight:400;opacity:.85;margin-bottom:3px}
+.timeline-list span.date{color:var(--gold);font-weight:400;line-height:1.6;font-size:13px}
+.timeline-item:not(:last-child)::before{content:"";position:absolute;top:-25px;left:-30px;width:1px;height:calc(100% + 50px);background:var(--jet)}
+.timeline-item::after{content:"";position:absolute;top:5px;left:-33px;height:6px;width:6px;background:var(--text-gradient-yellow);border-radius:50%;box-shadow:0 0 0 4px var(--jet)}
+.timeline-text{color:var(--gray);font-weight:300;line-height:1.6}
+.timeline-text li{position:relative;padding-left:14px;margin-top:6px}
+.timeline-text li::before{content:"";position:absolute;left:0;top:10px;width:5px;height:5px;border-radius:50%;background:var(--gold)}
+.timeline-text strong{color:var(--white-2);font-weight:500}
+.timeline-text a{color:var(--yellow)}
+.skills-title{margin-bottom:20px}
+.skills-list{padding:20px}
+.skill-group:not(:last-child){margin-bottom:18px}
+.skill-group h5{margin-bottom:10px;font-size:14px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-size:12px;color:var(--gray);background:var(--onyx);border:1px solid var(--jet);padding:4px 10px;border-radius:8px;transition:var(--t1)}
+.chip:hover{color:var(--yellow);border-color:hsla(45,100%,72%,.4)}
+.chip.hl{color:var(--smoky);background:var(--text-gradient-yellow);border-color:transparent;font-weight:500}
+
+/* portfolio */
+.filter-list{display:none}
+.filter-select-box{position:relative;margin-bottom:25px}
+.filter-select{background:var(--eerie-2);color:var(--gray-70);display:flex;justify-content:space-between;align-items:center;width:100%;padding:12px 16px;border:1px solid var(--jet);border-radius:14px;font-size:14px;font-weight:300}
+.filter-select.active svg{transform:rotate(.5turn)}
+.select-list{background:var(--eerie-2);position:absolute;top:calc(100% + 6px);width:100%;padding:6px;border:1px solid var(--jet);border-radius:14px;z-index:2;opacity:0;visibility:hidden;pointer-events:none;transition:.15s ease-in-out}
+.filter-select.active + .select-list{opacity:1;visibility:visible;pointer-events:all}
+.select-item button{background:var(--eerie-2);color:var(--gray);font-size:14px;font-weight:300;padding:8px 10px;width:100%;border-radius:8px}
+.select-item button:hover{background:hsl(240,2%,20%)}
+.project-list{display:grid;grid-template-columns:1fr;gap:30px;margin-bottom:10px}
+.project-item{display:none}
+.project-item.active{display:block;animation:scaleUp .25s ease forwards}
+@keyframes scaleUp{0%{transform:scale(.5)}100%{transform:scale(1)}}
+.project-item > a, .project-item > div{width:100%;display:block}
+.project-img{position:relative;width:100%;height:200px;border-radius:16px;overflow:hidden;margin-bottom:15px}
+.project-img::before{content:"";position:absolute;inset:0;background:transparent;z-index:1;transition:var(--t1)}
+.project-item:hover .project-img::before{background:hsla(0,0%,0%,.5)}
+.project-item-icon-box{--scale:.8;background:var(--jet);color:var(--yellow);position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(var(--scale));font-size:20px;padding:18px;border-radius:12px;opacity:0;z-index:1;transition:var(--t1);display:flex}
+.project-item:hover .project-item-icon-box{--scale:1;opacity:1}
+.thumb{width:100%;height:100%;padding-top:24px;transition:var(--t1);display:flex;align-items:center;justify-content:center;position:relative}
+.project-item:hover .thumb{transform:scale(1.1)}
+.thumb pre{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;line-height:1.55;color:hsla(0,0%,100%,.8);white-space:pre;padding:16px;background:hsla(0,0%,0%,.35);border:1px solid hsla(0,0%,100%,.08);border-radius:10px;max-width:88%;overflow:hidden}
+.thumb pre .k{color:var(--yellow)}.thumb pre .c{color:hsla(0,0%,100%,.45)}.thumb pre .s{color:hsl(150,55%,70%)}
+.t1{background:radial-gradient(circle at 20% 20%,hsl(190,60%,30%),hsl(220,35%,12%))}
+.t2{background:radial-gradient(circle at 80% 20%,hsl(30,70%,35%),hsl(15,35%,12%))}
+.t3{background:radial-gradient(circle at 30% 80%,hsl(265,45%,35%),hsl(250,30%,12%))}
+.t4{background:radial-gradient(circle at 70% 70%,hsl(140,40%,28%),hsl(160,30%,10%))}
+.t5{background:radial-gradient(circle at 50% 10%,hsl(350,50%,35%),hsl(340,30%,12%))}
+.t6{background:radial-gradient(circle at 10% 50%,hsl(205,70%,35%),hsl(215,35%,12%))}
+.project-title,.project-category{margin-left:10px}
+.project-title{color:var(--white-2);font-size:15px;font-weight:400;text-transform:capitalize;line-height:1.3}
+.project-category{color:var(--gray-70);font-size:13px;font-weight:300;margin-top:2px}
+.project-desc{margin:8px 10px 0;font-size:13px;font-weight:300;line-height:1.55;color:var(--gray)}
+.project-tags{display:flex;flex-wrap:wrap;gap:6px;margin:10px 10px 0}
+.project-tags .chip{font-size:11px;padding:2px 8px}
+.badge{position:absolute;top:12px;left:12px;z-index:2;font-size:10px;letter-spacing:.5px;text-transform:uppercase;background:hsla(0,0%,0%,.55);color:var(--yellow);padding:4px 8px;border-radius:6px;border:1px solid hsla(45,100%,72%,.3)}
+
+/* contact */
+.contact-cta{text-align:center;padding:10px 0 20px}
+.contact-cta p{font-size:14px;font-weight:300;line-height:1.6;margin:0 auto 22px;max-width:520px}
+.cta-row{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+.contact-grid{display:grid;grid-template-columns:1fr;gap:14px;margin-top:30px}
+.contact-card{position:relative;background:var(--border-gradient-onyx);border-radius:14px;padding:16px;display:flex;gap:14px;align-items:center;box-shadow:var(--shadow-2);z-index:1}
+.contact-card::before{content:"";position:absolute;inset:1px;background:var(--bg-gradient-jet);border-radius:inherit;z-index:-1}
+.contact-card .contact-info a,.contact-card .contact-info span{color:var(--white-2);font-size:14px;word-break:break-all}
+.contact-card .contact-info a:hover{color:var(--yellow)}
+
+/* responsive */
+@media(min-width:450px){
+  .clients-item{min-width:calc(33.33% - 10px)}
+  .project-img{height:auto;aspect-ratio:16/10}
+}
+@media(min-width:580px){
+  main{margin-top:60px;margin-bottom:100px}
+  .sidebar,article{width:520px;margin-inline:auto;padding:30px}
+  .article-title{font-weight:600;padding-bottom:15px}
+  .article-title::after{width:40px;height:5px}
+  .icon-box{border-radius:12px;width:48px;height:48px}
+  .icon-box svg{width:18px;height:18px}
+  .sidebar{max-height:180px;margin-bottom:30px}
+  .sidebar.active{max-height:700px}
+  .sidebar-info{gap:25px}
+  .avatar-box{border-radius:30px;width:120px;height:120px}
+  .avatar-box span{font-size:40px}
+  .info-content .name{margin-bottom:15px;font-size:24px}
+  .info-content .title{padding:5px 18px}
+  .info_more-btn{top:-30px;right:-30px;padding:10px 15px}
+  .info_more-btn span{display:block;font-size:12px}
+  .separator{margin:32px 0}
+  .contacts-list{gap:20px}
+  .contact-info{max-width:calc(100% - 64px);width:calc(100% - 64px)}
+  .navbar{border-radius:20px 20px 0 0}
+  .navbar-list{gap:20px}
+  .navbar-link{font-size:14px}
+  .about-text{font-size:15px}
+  .stats-list{grid-template-columns:repeat(4,1fr)}
+  .service-item{display:flex;align-items:flex-start;gap:18px;padding:30px}
+  .service-icon-box{margin-bottom:0;margin-top:5px}
+  .service-content-box{text-align:left}
+  .timeline-list{margin-left:65px}
+  .timeline-item:not(:last-child)::before{left:-40px}
+  .timeline-item::after{height:8px;width:8px;left:-43px}
+  .skills-item:not(:last-child){margin-bottom:25px}
+  .project-img{border-radius:16px}
+  .contact-grid{grid-template-columns:1fr 1fr}
+}
+@media(min-width:768px){
+  .sidebar,article{width:700px}
+  .h3{font-size:24px}
+  .stat-num{font-size:30px}
+  .contacts-list{grid-template-columns:1fr 1fr;gap:30px 15px}
+  .navbar-link{font-size:15px}
+  .project-list{grid-template-columns:1fr 1fr}
+  .filter-select-box{display:none}
+  .filter-list{display:flex;justify-content:flex-start;align-items:center;gap:25px;padding-left:5px;margin-bottom:30px;flex-wrap:wrap}
+  .filter-item button{color:var(--gray);font-size:15px;transition:var(--t1)}
+  .filter-item button:hover{color:var(--gray-70)}
+  .filter-item button.active{color:var(--yellow)}
+}
+@media(min-width:1024px){
+  :root{--shadow-1:-4px 8px 24px hsla(0,0%,0%,.125);--shadow-2:0 16px 30px hsla(0,0%,0%,.125)}
+  .sidebar,article{width:950px;box-shadow:var(--shadow-5)}
+  main{margin-bottom:60px}
+  .main-content{position:relative;width:max-content;margin:auto}
+  .navbar{position:absolute;bottom:auto;top:0;left:auto;right:0;width:max-content;border-radius:0 20px;padding:0 20px;box-shadow:none}
+  .navbar-list{gap:30px;padding:0 20px}
+  .navbar-link{font-weight:500}
+  .service-list{grid-template-columns:1fr 1fr;gap:20px 25px}
+  .clients-item{min-width:calc(25% - 11px)}
+  .project-list{grid-template-columns:repeat(3,1fr)}
+  .contact-grid{grid-template-columns:repeat(3,1fr)}
+}
+@media(min-width:1250px){
+  body::-webkit-scrollbar{width:20px}
+  body::-webkit-scrollbar-track{background:var(--smoky)}
+  body::-webkit-scrollbar-thumb{border:5px solid var(--smoky);background:hsla(0,0%,100%,.1);border-radius:20px;box-shadow:inset 1px 1px 0 hsla(0,0%,100%,.11),inset -1px -1px 0 hsla(0,0%,100%,.11)}
+  body::-webkit-scrollbar-thumb:hover{background:hsla(0,0%,100%,.15)}
+  main{max-width:1200px;margin-inline:auto;display:flex;justify-content:center;align-items:stretch;gap:25px}
+  .main-content{min-width:75%;width:75%;margin:0}
+  .sidebar{position:sticky;top:60px;max-height:max-content;height:100%;margin-bottom:0;padding-top:60px;z-index:1}
+  .sidebar-info{flex-direction:column}
+  .avatar-box span{font-size:44px}
+  .info-content .name{white-space:nowrap;text-align:center}
+  .info-content .title{margin:auto}
+  .info_more-btn{display:none}
+  .sidebar-info_more{opacity:1;visibility:visible}
+  .contacts-list{grid-template-columns:1fr}
+  .contact-info :is(.contact-link){white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .separator:last-of-type{margin:15px 0;opacity:0}
+  .social-list{justify-content:center}
+  .sidebar,article{width:auto}
+  article{min-height:100%}
+}
+</style>
+</head>
+<body>
+
+<!-- SVG icon sprite -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></symbol>
+    <symbol id="i-briefcase" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 13h18"/></symbol>
+    <symbol id="i-chev" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/></symbol>
+    <symbol id="i-doc" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+    <symbol id="i-ext" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4 10 14M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></symbol>
+    <symbol id="i-server" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="7" rx="2"/><rect x="3" y="14" width="18" height="7" rx="2"/><path d="M7 6.5h.01M7 17.5h.01M11 6.5h6M11 17.5h6"/></symbol>
+    <symbol id="i-network" viewBox="0 0 24 24"><circle cx="12" cy="5" r="2.5"/><circle cx="5" cy="19" r="2.5"/><circle cx="19" cy="19" r="2.5"/><path d="M12 7.5v4M12 11.5 6.5 17M12 11.5l5.5 5.5"/></symbol>
+    <symbol id="i-cloud" viewBox="0 0 24 24"><path d="M7 18a5 5 0 1 1 .9-9.9A6 6 0 0 1 19 10a4 4 0 0 1-1 8z"/></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-6"/></symbol>
+    <symbol id="i-code" viewBox="0 0 24 24"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/></symbol>
+    <symbol id="i-github" viewBox="0 0 24 24"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></symbol>
+    <symbol id="i-linkedin" viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></symbol>
+    <symbol id="i-send" viewBox="0 0 24 24"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4z"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></symbol>
+  </defs>
+</svg>
+
+<main>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" data-sidebar>
+    <div class="sidebar-info">
+      <figure class="avatar-box" aria-label="Sachin M S"><span>SM</span></figure>
+      <div class="info-content">
+        <h1 class="name" title="Sachin M S">Sachin M S</h1>
+        <p class="title">Backend Engineer · Golang</p>
+      </div>
+      <button class="info_more-btn" data-sidebar-btn>
+        <span>Show Contacts</span>
+        <svg class="i"><use href="#i-chev"/></svg>
+      </button>
+    </div>
+
+    <div class="sidebar-info_more">
+      <div class="separator"></div>
+      <ul class="contacts-list">
+        <li class="contact-item">
+          <div class="icon-box"><svg class="i"><use href="#i-mail"/></svg></div>
+          <div class="contact-info">
+            <p class="contact-title">Email</p>
+            <a href="mailto:mssachin2001@gmail.com" class="contact-link">mssachin2001@gmail.com</a>
+          </div>
+        </li>
+        <li class="contact-item">
+          <div class="icon-box"><svg class="i"><use href="#i-phone"/></svg></div>
+          <div class="contact-info">
+            <p class="contact-title">Phone</p>
+            <a href="tel:+919591054037" class="contact-link">+91 95910 54037</a>
+          </div>
+        </li>
+        <li class="contact-item">
+          <div class="icon-box"><svg class="i"><use href="#i-briefcase"/></svg></div>
+          <div class="contact-info">
+            <p class="contact-title">Currently</p>
+            <address>Software Engineer @ Zopping</address>
+          </div>
+        </li>
+        <li class="contact-item">
+          <div class="icon-box"><svg class="i"><use href="#i-pin"/></svg></div>
+          <div class="contact-info">
+            <p class="contact-title">Location</p>
+            <address>Bengaluru, Karnataka, India</address>
+          </div>
+        </li>
+      </ul>
+      <div class="separator"></div>
+      <ul class="social-list">
+        <li><a href="https://github.com/SachinMS7401" class="social-link" target="_blank" rel="noopener" aria-label="GitHub"><svg class="i"><use href="#i-github"/></svg></a></li>
+        <li><a href="https://www.linkedin.com/in/sachin-m-s-4a9040199" class="social-link" target="_blank" rel="noopener" aria-label="LinkedIn"><svg class="i"><use href="#i-linkedin"/></svg></a></li>
+        <li><a href="https://link.springer.com/chapter/10.1007/978-3-031-58181-6_36" class="social-link" target="_blank" rel="noopener" aria-label="Springer publication"><svg class="i"><use href="#i-book"/></svg></a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <div class="main-content">
+
+    <nav class="navbar">
+      <ul class="navbar-list">
+        <li><button class="navbar-link active" data-nav-link="about">About</button></li>
+        <li><button class="navbar-link" data-nav-link="resume">Resume</button></li>
+        <li><button class="navbar-link" data-nav-link="portfolio">Portfolio</button></li>
+      </ul>
+    </nav>
+
+    <!-- ABOUT -->
+    <article class="about active" data-page="about">
+      <header><h2 class="h2 article-title">About me</h2></header>
+
+      <section class="about-text">
+        <p>I'm a <strong>Backend Software Engineer</strong> based in Bengaluru with 3+ years of experience building scalable, high-performance microservices in <strong>Golang</strong> for e-commerce and retail platforms.</p>
+        <p>I enjoy the hard parts of backend work: designing <strong>REST and gRPC APIs</strong>, wiring up <strong>event-driven systems</strong> on Google Cloud Pub/Sub, squeezing latency out of hot paths with caching and good data-access patterns, and making services degrade gracefully when things go wrong with patterns like the <strong>circuit breaker</strong>. Currently at <strong>Zopping</strong>, I build real-time delivery tracking, cart recovery and multi-tenant features for enterprise retail clients.</p>
+      </section>
+
+      <ul class="stats-list">
+        <li class="stat-item"><div class="stat-num">3+</div><div class="stat-label">Years in backend</div></li>
+        <li class="stat-item"><div class="stat-num">2x</div><div class="stat-label">API throughput at peak</div></li>
+        <li class="stat-item"><div class="stat-num">20%</div><div class="stat-label">Conversion lift (cart recovery)</div></li>
+        <li class="stat-item"><div class="stat-num">95%</div><div class="stat-label">Unit test coverage</div></li>
+      </ul>
+
+      <section class="service">
+        <h3 class="h3 service-title">What I'm doing</h3>
+        <ul class="service-list">
+          <li class="service-item">
+            <div class="service-icon-box"><svg class="i"><use href="#i-server"/></svg></div>
+            <div class="service-content-box">
+              <h4 class="h4 service-item-title">Backend Development</h4>
+              <p class="service-item-text">Low-latency REST & gRPC services in Go — goroutines, channels, worker pools and clean repository layers.</p>
+            </div>
+          </li>
+          <li class="service-item">
+            <div class="service-icon-box"><svg class="i"><use href="#i-network"/></svg></div>
+            <div class="service-content-box">
+              <h4 class="h4 service-item-title">Distributed Systems</h4>
+              <p class="service-item-text">Microservices, API gateways, versioning, message queues and fault-tolerant designs built for high availability.</p>
+            </div>
+          </li>
+          <li class="service-item">
+            <div class="service-icon-box"><svg class="i"><use href="#i-cloud"/></svg></div>
+            <div class="service-content-box">
+              <h4 class="h4 service-item-title">Cloud & DevOps</h4>
+              <p class="service-item-text">Containerised services on Docker and Kubernetes running on Google Cloud Platform with Pub/Sub messaging.</p>
+            </div>
+          </li>
+          <li class="service-item">
+            <div class="service-icon-box"><svg class="i"><use href="#i-chart"/></svg></div>
+            <div class="service-content-box">
+              <h4 class="h4 service-item-title">Observability</h4>
+              <p class="service-item-text">Dashboards, monitoring and alerting with Grafana and Datadog for faster incident response in production.</p>
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <section class="clients">
+        <h3 class="h3">Companies I have worked with</h3>
+        <ul class="clients-list has-scrollbar">
+          <li class="clients-item"><div class="client-card"><div class="client-logo">Zop<b>ping</b></div><div class="client-role">Software Engineer · 2025 – Present</div></div></li>
+          <li class="clients-item"><div class="client-card"><div class="client-logo">Zop<b>Smart</b></div><div class="client-role">Software Engineer · 2023 – 2025</div></div></li>
+          <li class="clients-item"><div class="client-card"><div class="client-logo">Zop<b>Smart</b></div><div class="client-role">SDE Intern · Jan – Jun 2023</div></div></li>
+          <li class="clients-item"><div class="client-card"><div class="client-logo">PES <b>Univ.</b></div><div class="client-role">B.Tech CSE · 2019 – 2023</div></div></li>
+        </ul>
+      </section>
+    </article>
+
+    <!-- RESUME -->
+    <article class="resume" data-page="resume">
+      <header class="resume-top">
+        <h2 class="h2 article-title">Resume</h2>
+        <a class="btn" href="resume.pdf" target="_blank" rel="noopener" data-resume-btn><svg class="i"><use href="#i-doc"/></svg> Open Resume</a>
+      </header>
+
+      <section class="timeline">
+        <div class="title-wrapper">
+          <div class="icon-box"><svg class="i"><use href="#i-briefcase"/></svg></div>
+          <h3 class="h3">Experience</h3>
+        </div>
+        <ol class="timeline-list">
+          <li class="timeline-item">
+            <h4 class="h4 timeline-item-title">Software Engineer</h4>
+            <p class="timeline-org">Zopping · Bengaluru</p>
+            <span class="date">Nov 2025 — Present</span>
+            <ul class="timeline-text">
+              <li>Built a <strong>real-time delivery tracking</strong> system on the Google Maps API for live location and ETA updates — <strong>25% fewer</strong> support queries.</li>
+              <li>Architected an <strong>abandoned cart recovery</strong> service using event tracking and notification workflows — <strong>+20% conversion</strong>.</li>
+              <li>Set up monitoring and alerting with <strong>Grafana</strong> and <strong>Datadog</strong> for production services.</li>
+              <li>Built configurable <strong>multi-tenant</strong> features and REST/gRPC integrations to speed up enterprise client onboarding.</li>
+            </ul>
+          </li>
+          <li class="timeline-item">
+            <h4 class="h4 timeline-item-title">Software Engineer</h4>
+            <p class="timeline-org">ZopSmart · Bengaluru</p>
+            <span class="date">Jul 2023 — Oct 2025</span>
+            <ul class="timeline-text">
+              <li>Built a centralized <strong>API orchestration layer</strong> (API gateway + versioning strategy) — <strong>35% less</strong> integration complexity.</li>
+              <li>Developed low-latency CRUD REST APIs in Go with caching — <strong>2x throughput</strong> under peak load.</li>
+              <li>Built <strong>marketplace inventory management</strong> — +25% inventory accuracy, 40% less manual reconciliation.</li>
+              <li>Engineered the <strong>circuit breaker</strong> pattern for graceful degradation — 10% less downtime.</li>
+              <li>Implemented <strong>point-in-time recovery</strong> for order-based inventory — recovery time cut from 8 to 2 minutes.</li>
+            </ul>
+          </li>
+          <li class="timeline-item">
+            <h4 class="h4 timeline-item-title">Software Engineer Intern</h4>
+            <p class="timeline-org">ZopSmart · Bengaluru</p>
+            <span class="date">Jan 2023 — Jun 2023</span>
+            <ul class="timeline-text">
+              <li>Designed an async <strong>bulk customer upload pipeline</strong> (FTP, cron, batch) — processing delay cut from 5 hours to 10 minutes.</li>
+              <li>Migrated backend services from <strong>PHP to Go</strong> and wrote repository-layer unit tests with <strong>95% coverage</strong>.</li>
+            </ul>
+          </li>
+        </ol>
+      </section>
+
+      <section class="timeline">
+        <div class="title-wrapper">
+          <div class="icon-box"><svg class="i"><use href="#i-book"/></svg></div>
+          <h3 class="h3">Education</h3>
+        </div>
+        <ol class="timeline-list">
+          <li class="timeline-item">
+            <h4 class="h4 timeline-item-title">PES University, Bengaluru</h4>
+            <p class="timeline-org">B.Tech in Computer Science and Engineering</p>
+            <span class="date">2019 — 2023</span>
+          </li>
+        </ol>
+      </section>
+
+      <section class="timeline">
+        <div class="title-wrapper">
+          <div class="icon-box"><svg class="i"><use href="#i-doc"/></svg></div>
+          <h3 class="h3">Publications</h3>
+        </div>
+        <ol class="timeline-list">
+          <li class="timeline-item">
+            <h4 class="h4 timeline-item-title">Automated Cricket Commentary Generation</h4>
+            <p class="timeline-org">Conference Paper · Springer</p>
+            <span class="date">Jul 2024</span>
+            <p class="timeline-text">A novel approach to auto-generate cricket commentary using state-of-the-art computer vision and machine learning. <a href="https://link.springer.com/chapter/10.1007/978-3-031-58181-6_36" target="_blank" rel="noopener">Read on Springer →</a></p>
+          </li>
+        </ol>
+      </section>
+
+      <section class="skill">
+        <h3 class="h3 skills-title">Technical Skills</h3>
+        <div class="skills-list content-card" style="padding-top:20px">
+          <div class="skill-group"><h5 class="h5">Languages</h5>
+            <div class="chips"><span class="chip hl">Golang</span><span class="chip">SQL</span><span class="chip">C</span><span class="chip">Python</span></div></div>
+          <div class="skill-group"><h5 class="h5">Databases</h5>
+            <div class="chips"><span class="chip hl">PostgreSQL</span><span class="chip">MySQL</span><span class="chip hl">Redis</span><span class="chip">Query Optimization</span><span class="chip">Relational Design</span><span class="chip">Caching</span></div></div>
+          <div class="skill-group"><h5 class="h5">Cloud & DevOps</h5>
+            <div class="chips"><span class="chip hl">GCP</span><span class="chip">Cloud Pub/Sub</span><span class="chip hl">Docker</span><span class="chip hl">Kubernetes</span><span class="chip">Git / GitHub</span></div></div>
+          <div class="skill-group"><h5 class="h5">Architecture</h5>
+            <div class="chips"><span class="chip hl">Microservices</span><span class="chip">REST</span><span class="chip">gRPC</span><span class="chip">API Gateway</span><span class="chip">API Versioning</span><span class="chip">Event-Driven</span><span class="chip">Message Queues</span><span class="chip">Circuit Breaker</span><span class="chip">High Availability</span><span class="chip">System Design</span></div></div>
+          <div class="skill-group"><h5 class="h5">Go & Concurrency</h5>
+            <div class="chips"><span class="chip">Goroutines</span><span class="chip">Channels</span><span class="chip">Mutex</span><span class="chip">Worker Pools</span><span class="chip">Daemons</span><span class="chip">Cron Jobs</span><span class="chip">Batch Processing</span></div></div>
+          <div class="skill-group"><h5 class="h5">Tools & Monitoring</h5>
+            <div class="chips"><span class="chip">Grafana</span><span class="chip">Datadog</span><span class="chip">Postman</span><span class="chip">Jira</span><span class="chip">Google Maps API</span></div></div>
+          <div class="skill-group"><h5 class="h5">Practices</h5>
+            <div class="chips"><span class="chip">Unit Testing</span><span class="chip">Code Review</span><span class="chip">Agile</span><span class="chip">DSA</span><span class="chip">Problem Solving</span></div></div>
+        </div>
+      </section>
+    </article>
+
+    <!-- PORTFOLIO -->
+    <article class="portfolio" data-page="portfolio">
+      <header><h2 class="h2 article-title">Portfolio</h2></header>
+      <section class="projects">
+        <ul class="filter-list">
+          <li class="filter-item"><button class="active" data-filter-btn>All</button></li>
+          <li class="filter-item"><button data-filter-btn>Backend</button></li>
+          <li class="filter-item"><button data-filter-btn>Machine Learning</button></li>
+          <li class="filter-item"><button data-filter-btn>Cloud</button></li>
+          <li class="filter-item"><button data-filter-btn>Python</button></li>
+        </ul>
+        <div class="filter-select-box">
+          <button class="filter-select" data-select>
+            <div class="select-value" data-select-value>Select category</div>
+            <svg class="i"><use href="#i-chev"/></svg>
+          </button>
+          <ul class="select-list">
+            <li class="select-item"><button data-select-item>All</button></li>
+            <li class="select-item"><button data-select-item>Backend</button></li>
+            <li class="select-item"><button data-select-item>Machine Learning</button></li>
+            <li class="select-item"><button data-select-item>Cloud</button></li>
+            <li class="select-item"><button data-select-item>Python</button></li>
+          </ul>
+        </div>
+
+        <ul class="project-list">
+          <li class="project-item active" data-filter-item data-category="backend">
+            <div>
+              <figure class="project-img">
+                <span class="badge">Zopping</span>
+                <div class="thumb t1"><pre><span class="k">func</span> (t *Tracker) Stream(ctx) {
+  <span class="k">for</span> loc := <span class="k">range</span> t.updates {
+    eta := maps.ETA(loc, dest)
+    t.push(order, loc, eta)
+  }
+}</pre></div>
+              </figure>
+              <h3 class="project-title">Real-time Delivery Tracking</h3>
+              <p class="project-category">Backend · Go</p>
+              <p class="project-desc">Live rider location and ETA updates via the Google Maps API; cut customer support queries by 25%.</p>
+              <div class="project-tags"><span class="chip">Go</span><span class="chip">Maps API</span><span class="chip">gRPC</span></div>
+            </div>
+          </li>
+
+          <li class="project-item active" data-filter-item data-category="backend">
+            <div>
+              <figure class="project-img">
+                <span class="badge">Zopping</span>
+                <div class="thumb t2"><pre><span class="c">// on: cart.abandoned</span>
+<span class="k">sub</span>.Receive(ctx, <span class="k">func</span>(m) {
+  evt := decode(m.Data)
+  notify.Schedule(evt.User,
+    <span class="s">"come-back"</span>, 30*time.Minute)
+  m.Ack()
+})</pre></div>
+              </figure>
+              <h3 class="project-title">Abandoned Cart Recovery</h3>
+              <p class="project-category">Backend · Event-driven</p>
+              <p class="project-desc">Event tracking and notification workflows that re-engage shoppers before checkout; +20% conversion.</p>
+              <div class="project-tags"><span class="chip">Pub/Sub</span><span class="chip">Go</span><span class="chip">Workflows</span></div>
+            </div>
+          </li>
+
+          <li class="project-item active" data-filter-item data-category="backend">
+            <div>
+              <figure class="project-img">
+                <span class="badge">ZopSmart</span>
+                <div class="thumb t6"><pre>GET /v2/orders/:id
+  ├─ auth     ✓
+  ├─ version  <span class="s">v2 → orders-svc</span>
+  ├─ cache    <span class="k">HIT</span>  2ms
+  └─ breaker  <span class="s">CLOSED</span></pre></div>
+              </figure>
+              <h3 class="project-title">API Gateway & Orchestration</h3>
+              <p class="project-category">Backend · Microservices</p>
+              <p class="project-desc">Centralized routing and API versioning across microservices, plus a circuit breaker for graceful degradation.</p>
+              <div class="project-tags"><span class="chip">API Gateway</span><span class="chip">Circuit Breaker</span><span class="chip">Redis</span></div>
+            </div>
+          </li>
+
+          <li class="project-item active" data-filter-item data-category="backend">
+            <div>
+              <figure class="project-img">
+                <span class="badge">ZopSmart</span>
+                <div class="thumb t4"><pre><span class="c"># bulk upload pipeline</span>
+ftp://  → customers.csv
+cron    → every 5m
+batch   → 1000 rows / worker
+before  <span class="k">5 hours</span>
+after   <span class="s">10 minutes</span></pre></div>
+              </figure>
+              <h3 class="project-title">Bulk Customer Upload Pipeline</h3>
+              <p class="project-category">Backend · Batch processing</p>
+              <p class="project-desc">Async FTP + cron + batch pipeline turning offline CSV uploads into near real-time data.</p>
+              <div class="project-tags"><span class="chip">Go</span><span class="chip">Cron</span><span class="chip">Worker Pool</span></div>
+            </div>
+          </li>
+
+          <li class="project-item active" data-filter-item data-category="machine learning">
+            <a href="https://github.com/SachinMS7401/Automated-Cricket-Commentary" target="_blank" rel="noopener">
+              <figure class="project-img">
+                <span class="badge">Springer · 2024</span>
+                <div class="project-item-icon-box"><svg class="i"><use href="#i-eye"/></svg></div>
+                <div class="thumb t3"><pre>frame[1042] → <span class="k">cover drive</span>  0.94
+frame[1043] → <span class="k">boundary</span>     0.91
+<span class="s">"Driven through the covers,
+ and that races away for FOUR!"</span></pre></div>
+              </figure>
+              <h3 class="project-title">Automated Cricket Commentary</h3>
+              <p class="project-category">Machine Learning · Computer Vision</p>
+              <p class="project-desc">Cricket event classification with ML + CV to auto-generate commentary. Published at a Springer conference.</p>
+              <div class="project-tags"><span class="chip">Python</span><span class="chip">CV</span><span class="chip">Jupyter</span></div>
+            </a>
+          </li>
+
+          <li class="project-item active" data-filter-item data-category="cloud">
+            <a href="https://github.com/SachinMS7401/CloudHack" target="_blank" rel="noopener">
+              <figure class="project-img">
+                <div class="project-item-icon-box"><svg class="i"><use href="#i-eye"/></svg></div>
+                <div class="thumb t6"><pre>$ cloudhack deploy
+ ▸ building image   ✓
+ ▸ pushing          ✓
+ ▸ <span class="s">live at :8080</span></pre></div>
+              </figure>
+              <h3 class="project-title">CloudHack</h3>
+              <p class="project-category">Cloud · HTML</p>
+              <p class="project-desc">Cloud computing hackathon project.</p>
+              <div class="project-tags"><span class="chip">Cloud</span><span class="chip">HTML</span></div>
+            </a>
+          </li>
+
+          <li class="project-item active" data-filter-item data-category="python">
+            <a href="https://github.com/SachinMS7401/Big-Data" target="_blank" rel="noopener">
+              <figure class="project-img">
+                <div class="project-item-icon-box"><svg class="i"><use href="#i-eye"/></svg></div>
+                <div class="thumb t5"><pre>rdd.map(parse)
+   .filter(valid)
+   .reduceByKey(add)
+<span class="c"># 1.2M rows → 42 keys</span></pre></div>
+              </figure>
+              <h3 class="project-title">Big Data</h3>
+              <p class="project-category">Python · Data processing</p>
+              <p class="project-desc">Coursework and experiments in large-scale data processing.</p>
+              <div class="project-tags"><span class="chip">Python</span><span class="chip">Big Data</span></div>
+            </a>
+          </li>
+
+          <li class="project-item active" data-filter-item data-category="python">
+            <a href="https://github.com/SachinMS7401/YouTube-Video-downloader" target="_blank" rel="noopener">
+              <figure class="project-img">
+                <div class="project-item-icon-box"><svg class="i"><use href="#i-eye"/></svg></div>
+                <div class="thumb t2"><pre>$ python yt.py &lt;url&gt;
+resolution: <span class="k">1080p</span>
+[██████████████░░] 87%</pre></div>
+              </figure>
+              <h3 class="project-title">YouTube Video Downloader</h3>
+              <p class="project-category">Python · Utility</p>
+              <p class="project-desc">A small Python tool for downloading YouTube videos.</p>
+              <div class="project-tags"><span class="chip">Python</span><span class="chip">CLI</span></div>
+            </a>
+          </li>
+
+          <li class="project-item active" data-filter-item data-category="machine learning">
+            <a href="https://github.com/SachinMS7401/Check-Number-Reader" target="_blank" rel="noopener">
+              <figure class="project-img">
+                <div class="project-item-icon-box"><svg class="i"><use href="#i-eye"/></svg></div>
+                <div class="thumb t4"><pre>img  → binarize → segment
+digits: <span class="s">0 4 7 1 9 2 3</span>
+<span class="c">% MATLAB image processing</span></pre></div>
+              </figure>
+              <h3 class="project-title">Check Number Reader</h3>
+              <p class="project-category">Image Processing · MATLAB</p>
+              <p class="project-desc">Reads numbers from cheque images using image processing techniques.</p>
+              <div class="project-tags"><span class="chip">MATLAB</span><span class="chip">OCR</span></div>
+            </a>
+          </li>
+        </ul>
+      </section>
+    </article>
+
+  </div>
+</main>
+
+<script>
+(() => {
+  const $ = (s, el = document) => el.querySelector(s);
+  const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+
+  // sidebar toggle (mobile)
+  const sidebar = $('[data-sidebar]');
+  $('[data-sidebar-btn]').addEventListener('click', () => {
+    sidebar.classList.toggle('active');
+    $('[data-sidebar-btn] span').textContent = sidebar.classList.contains('active') ? 'Hide Contacts' : 'Show Contacts';
+  });
+
+  // page navigation with #hash routing
+  const links = $$('[data-nav-link]'), pages = $$('[data-page]');
+  const show = (name) => {
+    if (!pages.some(p => p.dataset.page === name)) name = 'about';
+    pages.forEach(p => p.classList.toggle('active', p.dataset.page === name));
+    links.forEach(l => l.classList.toggle('active', l.dataset.navLink === name));
+  };
+  links.forEach(l => l.addEventListener('click', () => {
+    const name = l.dataset.navLink;
+    if (location.hash !== '#' + name) location.hash = name; else show(name);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }));
+  window.addEventListener('hashchange', () => show(location.hash.slice(1)));
+  show(location.hash.slice(1));
+
+  // portfolio filter
+  const items = $$('[data-filter-item]');
+  const filter = (v) => items.forEach(i => i.classList.toggle('active', v === 'all' || i.dataset.category === v));
+  let lastBtn = $('[data-filter-btn].active');
+  $$('[data-filter-btn]').forEach(b => b.addEventListener('click', () => {
+    filter(b.textContent.trim().toLowerCase());
+    $('[data-select-value]').textContent = b.textContent;
+    lastBtn.classList.remove('active'); b.classList.add('active'); lastBtn = b;
+  }));
+  const select = $('[data-select]');
+  select.addEventListener('click', () => select.classList.toggle('active'));
+  $$('[data-select-item]').forEach(b => b.addEventListener('click', () => {
+    $('[data-select-value]').textContent = b.textContent;
+    select.classList.remove('active');
+    filter(b.textContent.trim().toLowerCase());
+  }));
+
+  // hide "Open Resume" if resume.pdf isn't hosted alongside this page
+  fetch('resume.pdf', { method: 'HEAD' })
+    .then(r => { if (!r.ok) throw 0; })
+    .catch(() => { const b = $('[data-resume-btn]'); if (b) b.style.display = 'none'; });
+})();
+</script>
+</body>
+</html>
